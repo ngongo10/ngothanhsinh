@@ -38,8 +38,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px; /* Khoảng cách giữa hai nút */
+            gap: 30px;
             margin-top: 20px;
+            position: relative;
         }
         .btn {
             font-size: 20px;
@@ -48,12 +49,11 @@
             border-radius: 5px;
             cursor: pointer;
             transition: all 0.3s ease;
+            position: relative;
         }
         .accept {
             background: #4CAF50;
             color: white;
-            position: relative;
-            left: 10px; /* Dịch nhẹ sang phải */
         }
         .accept:hover {
             background: #45a049;
@@ -62,8 +62,6 @@
         .runaway {
             background: #ff4b5c;
             color: white;
-            position: relative;
-            right: 10px; /* Dịch nhẹ sang trái */
         }
     </style>
 </head>
@@ -78,15 +76,16 @@
         <img src="https://i.imgur.com/t6aKxIH.jpeg" alt="Cute crying cat">
         <h3>Bé hong chọn hoặc thoát là tha lỗi cho anh đó</h3>
         <div class="btn-container">
-            <button class="btn accept" onclick="goToFoodPage()">Em chấp nhận</button>
-            <button class="btn runaway" onmouseover="moveButton(this)" ontouchstart="moveButton(this)">Mong bé tha lỗi cho anh :(</button>
+            <button id="accept-btn" class="btn accept" onclick="goToFoodPage()">Em chấp nhận</button>
+            <button id="runaway-btn" class="btn runaway" onclick="moveButton(this)">Mong bé tha lỗi cho anh :(</button>
         </div>
     </div>
 
     <script>
         let storyIndex = 0;
         let escapeCount = 0;
-        let acceptButton = document.querySelector('.accept');
+        let acceptButton = document.getElementById("accept-btn");
+        let runawayButton = document.getElementById("runaway-btn");
         const storyTexts = [
             "Ngày xửa ngày xưa, có một chàng trai lỡ làm điều gì đó khiến công chúa giận...",
             "Chàng trai rất hối hận và tìm mọi cách để xin lỗi...",
@@ -102,19 +101,25 @@
                 document.getElementById("apology-container").style.display = "block";
             }
         }
-        
+
         function moveButton(btn) {
             escapeCount++;
-            let x = Math.random() * (window.innerWidth - btn.offsetWidth);
-            let y = Math.random() * (window.innerHeight - btn.offsetHeight);
-            btn.style.left = x + 'px';
-            btn.style.top = y + 'px';
-            
+
+            // Giới hạn phạm vi di chuyển của nút đỏ
+            let maxX = window.innerWidth * 0.4; 
+            let maxY = window.innerHeight * 0.4;
+            let x = Math.random() * maxX - maxX / 2;
+            let y = Math.random() * maxY - maxY / 2;
+
+            btn.style.transform = `translate(${x}px, ${y}px)`;
+
+            // Sau 10 lần nhấn, nút xanh to dần
             if (escapeCount >= 10) {
                 let scale = 1 + (escapeCount - 10) * 0.2;
                 acceptButton.style.transform = `scale(${scale})`;
             }
 
+            // Sau 20 lần nhấn, ẩn nút đỏ
             if (escapeCount >= 20) {
                 btn.style.display = 'none';
             }
