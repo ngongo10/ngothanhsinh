@@ -55,12 +55,20 @@
         <p><strong>Bé hong chọn hoặc thoát là tha lỗi cho anh đó</strong></p>
         <button class="btn accept-btn" onclick="alert('Anh yêu em nhiều lắm! ❤️')">Em chấp nhận</button>
         <button class="btn accept" onclick="window.location.href='di_an_uong.html'">Em chấp nhận</button>
+
         <button id="runaway" class="btn runaway-btn">Mong bé tha lỗi choo anh :(</button>
         
     </div>
 
     <script>
         let currentStory = 1;
+        function acceptApology() {
+    alert('Anh yêu bé lắm 😘!');
+    setTimeout(() => {
+        window.location.href = "di_an_uong.html"; // Chuyển hướng sau 2 giây
+    }, 2000);
+}
+
 
         function nextStory(step) {
             document.getElementById(`story${step}`).classList.remove('visible');
