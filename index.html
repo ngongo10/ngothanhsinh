@@ -37,12 +37,11 @@
             margin: 10px;
             position: relative;
         }
-        /* Hiệu ứng khi hover vào nút */
+        /* Hiệu ứng hover và active */
         .btn:hover {
             transform: scale(1.1);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
-        /* Hiệu ứng khi nhấn vào nút */
         .btn:active {
             transform: scale(0.9);
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
@@ -72,8 +71,8 @@
         <h2>Bé iu ơi cho anh xin lỗi nhé 😢</h2>
         <img src="https://i.imgur.com/t6aKxIH.jpeg" alt="Cute crying cat">
         <h3>Bé hong chọn hoặc thoát là tha lỗi cho anh đó</h3>
-        <button class="btn accept" onclick="acceptApology()">Em chấp nhận</button>
-        <button class="btn runaway" onmouseover="moveButton(this)">Mong bé tha lỗi cho anh :(</button>
+        <button id="accept-btn" class="btn accept" onclick="acceptApology()">Em chấp nhận</button>
+        <button id="runaway-btn" class="btn runaway" onmouseover="moveButton(this)">Mong bé tha lỗi cho anh :(</button>
     </div>
 
     <script>
@@ -94,6 +93,10 @@
             }
         }
 
+        let moveCount = 0;
+        let acceptBtn = document.getElementById("accept-btn");
+        let runawayBtn = document.getElementById("runaway-btn");
+
         function moveButton(btn) {
             let maxX = window.innerWidth - btn.offsetWidth - 50;
             let maxY = window.innerHeight - btn.offsetHeight - 50;
@@ -103,11 +106,24 @@
 
             btn.style.left = x + "px";
             btn.style.top = y + "px";
+
+            moveCount++;
+
+            // Khi di chuyển 10 lần, nút xanh to dần
+            if (moveCount > 10 && moveCount <= 20) {
+                let scaleValue = 1 + (moveCount - 10) * 0.1; // Tăng kích thước từ 1.1 đến 2.0
+                acceptBtn.style.transform = `scale(${scaleValue})`;
+            }
+
+            // Sau 20 lần di chuyển, ẩn nút đỏ
+            if (moveCount >= 20) {
+                runawayBtn.style.display = "none";
+            }
         }
 
         function acceptApology() {
             alert('Anh yêu bé lắm 😘! Giờ mình đi ăn nha 🍔🥤');
-            window.location.href = "https://www.foody.vn/"; // Chuyển sang trang rủ đi ăn
+            window.location.href = https://www.youtube.com/watch?v=uUB7wnWeMdM
         }
     </script>
 </body>
