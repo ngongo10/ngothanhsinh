@@ -36,7 +36,6 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s ease-in-out;
             margin: 10px;
         }
         .btn:hover {
@@ -58,7 +57,6 @@
             background: #ff4b5c;
             color: white;
             position: absolute;
-            transition: left 0.3s ease-in-out, top 0.3s ease-in-out;
         }
     </style>
 </head>
@@ -112,7 +110,7 @@
 
             // Khi di chuyển 10 lần, nút xanh phóng to
             if (moveCount > 10 && moveCount <= 20) {
-                let scaleValue = 1 + (moveCount - 10) * 0.12;
+                let scaleValue = 1 + (moveCount - 10) * 0.1;
                 acceptBtn.style.transform = `scale(${scaleValue})`;
             }
 
