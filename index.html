@@ -33,8 +33,19 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s ease-in-out;
             margin: 10px;
+            position: relative;
+        }
+        /* Hiệu ứng khi hover vào nút */
+        .btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        /* Hiệu ứng khi nhấn vào nút */
+        .btn:active {
+            transform: scale(0.9);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
         }
         .accept {
             background: #4CAF50;
