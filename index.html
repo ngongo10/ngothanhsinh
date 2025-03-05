@@ -10,7 +10,9 @@
             text-align: center;
             background: linear-gradient(135deg, #ff9a9e, #fad0c4);
             color: #d63484;
-            overflow: hidden; /* Ngăn trang web bị trượt trên điện thoại */
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
         }
         .story {
             font-size: 24px;
@@ -36,7 +38,6 @@
             cursor: pointer;
             transition: all 0.3s ease-in-out;
             margin: 10px;
-            position: relative;
         }
         .btn:hover {
             transform: scale(1.1);
@@ -57,7 +58,7 @@
             background: #ff4b5c;
             color: white;
             position: absolute;
-            transition: transform 0.5s ease-in-out;
+            transition: left 0.3s ease-in-out, top 0.3s ease-in-out;
         }
     </style>
 </head>
@@ -104,13 +105,14 @@
             let x = Math.random() * maxX;
             let y = Math.random() * maxY;
 
-            runawayBtn.style.transform = `translate(${x}px, ${y}px)`;
+            runawayBtn.style.left = x + 'px';
+            runawayBtn.style.top = y + 'px';
 
             moveCount++;
 
-            // Khi di chuyển 10 lần, nút xanh to dần
+            // Khi di chuyển 10 lần, nút xanh phóng to
             if (moveCount > 10 && moveCount <= 20) {
-                let scaleValue = 1 + (moveCount - 10) * 0.1;
+                let scaleValue = 1 + (moveCount - 10) * 0.12;
                 acceptBtn.style.transform = `scale(${scaleValue})`;
             }
 
@@ -122,7 +124,7 @@
 
         function acceptApology() {
             alert('Anh yêu bé lắm 😘! Giờ mình đi ăn nha 🍔🥤');
-            window.location.href = "https://www.foody.vn/"; // Chuyển sang trang rủ đi ăn
+            window.location.href = "https://www.youtube.com/watch?v=SGlBQR-ftVI";
         }
     </script>
 </body>
