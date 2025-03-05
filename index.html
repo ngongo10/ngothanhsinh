@@ -1,40 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="style.css" />
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xin Lỗi Bé Yêu</title>
     <style>
-      .title span {
-        font-size: 1.5em; /* Kích thước chữ 1.5em */
-      }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #ffe6eb;
+            margin: 0;
+            padding: 20px;
+        }
+        .story, .apology {
+            display: none;
+        }
+        .visible {
+            display: block;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .accept-btn {
+            background-color: green;
+            color: white;
+        }
+        .runaway-btn {
+            background-color: red;
+            color: white;
+            position: absolute;
+        }
     </style>
-    <title>Valentine</title>
-  </head>
-  <body>
-    <main class="container">
-      <img
-        class="cat-img"
-        src="https://media.giphy.com/media/SVkhYVCi8fKPKvypi6/giphy.gif"
-        alt="Picture of a cat"
-      />
-      <p class="title">
-        Bé iuu ơi choo anhh xinn lỗi nhóooo😭<br /><span
-          >Bé hong chọn hoặc thoát là tha lỗi cho anh đó</span
-        >
-      </p>
-      <div class="buttons">
-        <button type="button" class="btn btn--yes">Em chấp nhận</button>
-        <button type="button" class="btn btn--no">Không bao giờ</button>
-      </div>
-    </main>
+</head>
+<body>
+    <div id="story1" class="story visible">
+        <h2>Chuyện là như này...</h2>
+        <p>Anh đã làm điều gì đó sai...</p>
+        <button class="btn" onclick="nextStory(1)">Tiếp tục</button>
+    </div>
 
-    <script type="module" src="script.js"></script>
-  </body>
+    <div id="story2" class="story">
+        <h2>Rồi anh suy nghĩ mãi...</h2>
+        <p>Và quyết định làm trang này cho em.</p>
+        <button class="btn" onclick="nextStory(2)">Tiếp tục</button>
+    </div>
+
+    <div id="apology" class="apology">
+        <h2>Bé iu ơi choo anh xin lỗi nhóoo😭</h2>
+        <img src="https://i.imgur.com/vxJSa3h.jpeg" alt="Mèo xin lỗi" width="200">
+        <p><strong>Bé hong chọn hoặc thoát là tha lỗi cho anh đó</strong></p>
+        <button class="btn accept-btn" onclick="alert('Anh yêu em nhiều lắm! ❤️')">Em chấp nhận</button>
+        <button id="runaway" class="btn runaway-btn">Mong bé tha lỗi choo anh :(</button>
+    </div>
+
+    <script>
+        let currentStory = 1;
+
+        function nextStory(step) {
+            document.getElementById(`story${step}`).classList.remove('visible');
+            if (step < 2) {
+                document.getElementById(`story${step + 1}`).classList.add('visible');
+            } else {
+                document.getElementById('apology').classList.add('visible');
+            }
+        }
+
+        document.getElementById('runaway').addEventListener('mouseover', function() {
+            const btn = this;
+            const x = Math.random() * (window.innerWidth - btn.clientWidth);
+            const y = Math.random() * (window.innerHeight - btn.clientHeight);
+            btn.style.left = `${x}px`;
+            btn.style.top = `${y}px`;
+        });
+    </script>
+</body>
 </html>
