@@ -54,6 +54,7 @@
         .accept {
             background: #4CAF50;
             color: white;
+            transition: transform 0.3s ease, margin-top 0.3s ease;
         }
         .accept:hover {
             background: #45a049;
@@ -107,7 +108,7 @@
 
             // Giới hạn phạm vi di chuyển của nút đỏ
             let maxX = window.innerWidth * 0.4; 
-            let maxY = window.innerHeight * 0.4;
+            let maxY = window.innerHeight * 0.55;
             let x = Math.random() * maxX - maxX / 2;
             let y = Math.random() * maxY - maxY / 2;
 
@@ -119,15 +120,16 @@
                 acceptButton.style.transform = `scale(${scale})`;
             }
 
-            // Sau 20 lần nhấn, ẩn nút đỏ
+            // Sau 20 lần nhấn, ẩn nút đỏ và dịch nút xanh xuống nhiều hơn
             if (escapeCount >= 20) {
                 btn.style.display = 'none';
+                acceptButton.style.marginTop = "40px"; // Dịch xuống nhiều hơn
             }
         }
 
         function goToFoodPage() {
             alert('Anh yêu bé lắm 😘!');
-            window.location.href = 'https://www.foody.vn/';
+            window.location.href = 'https://www.youtube.com/watch?v=SGlBQR-ftVI';
         }
     </script>
 </body>
