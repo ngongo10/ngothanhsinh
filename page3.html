@@ -12,7 +12,7 @@
             align-items: center;
             justify-content: flex-start;
             height: 100vh;
-            background-color: pink;
+            background-color: #2c3e50;
             font-family: "Poppins", sans-serif;
             text-align: center;
             overflow: hidden;
@@ -30,7 +30,7 @@
             position: relative;
             width: 180px;
             height: 260px;
-            margin-bottom: 20px;
+            margin-bottom: 60px;
         }
         .card {
             width: 100%;
@@ -54,7 +54,7 @@
             flex-direction: row;
             gap: 20px;
             position: relative;
-            bottom: -20px;
+            bottom: -10px;
             z-index: 100;
         }
         .button {
@@ -121,69 +121,55 @@
             ];
             
             
-            for (let i = 0; i < cardContents.length; i++) {
+            cardContents.forEach((content, i) => {
                 const card = document.createElement("div");
                 card.classList.add("card");
-                card.innerText = cardContents[i];
+                card.innerText = content;
                 card.style.zIndex = cardContents.length - i;
                 let angle = (Math.random() * 10 - 5);
                 let offsetX = (Math.random() * 10 - 5);
                 card.style.transform = `translateX(${offsetX}px) rotate(${angle}deg) translateY(${i * -3}px)`;
                 cardContainer.appendChild(card);
                 cards.push(card);
-            }
+            });
         }
 
         createCards();
 
+        function swipeCard(direction) {
+            if (direction === 'left' && currentIndex < cards.length - 1) {
+                let movedCard = cards.shift();
+                cards.push(movedCard);
+                currentIndex++;
+            } else if (direction === 'right' && currentIndex > 0) {
+                let movedCard = cards.pop();
+                cards.unshift(movedCard);
+                currentIndex--;
+            }
+            updateCards();
+            finalButtons.style.display = (currentIndex === 9) ? "flex" : "none";
+        }
+
         function updateCards() {
             cards.forEach((card, index) => {
-                let offset = (index - currentIndex) * 10;
-                let angle = (index - currentIndex) * 5 * (Math.random() > 0.5 ? 1 : -1);
-                let offsetX = (index - currentIndex) * 5 * (Math.random() > 0.5 ? 1 : -1);
-                card.style.zIndex = cards.length - Math.abs(index - currentIndex);
+                let angle = (index - currentIndex) * 3;
+                let offsetX = (index - currentIndex) * 3;
+                card.style.zIndex = cards.length - index;
                 card.style.transform = `translateX(${offsetX}px) rotate(${angle}deg) translateY(${index * -3}px)`;
             });
         }
 
         const hammer = new Hammer(cardContainer);
-        hammer.on("swipeleft", function () {
-            if (currentIndex < cards.length - 1) {
-                let movedCard = cards.shift();
-                cards.push(movedCard);
-                currentIndex++;
-                updateCards();
-                if (currentIndex === 9) {
-                    finalButtons.style.display = "flex";
-                }
-            }
-        });
+        hammer.on("swipeleft", () => swipeCard('left'));
+        hammer.on("swiperight", () => swipeCard('right'));
         
-        hammer.on("swiperight", function () {
-            if (currentIndex > 0) {
-                let movedCard = cards.pop();
-                cards.unshift(movedCard);
-                currentIndex--;
-                updateCards();
-                if (currentIndex < 9) {
-                    finalButtons.style.display = "none";
-                }
-            }
-        });
-
-        updateCards();
-
-        function nextPage() {
-            window.location.href = "page4";
-        }
-
+        function nextPage() { window.location.href = "page4"; }
         function changeRedButton() {
             if (messageIndex < messages.length) {
                 redButton.innerText = messages[messageIndex];
                 messageIndex++;
             } else {
-                redButton.classList.remove("red");
-                redButton.classList.add("green");
+                redButton.classList.replace("red", "green");
                 redButton.innerText = "Được rồi em sẽ xem xét";
                 redButton.onclick = nextPage;
             }
