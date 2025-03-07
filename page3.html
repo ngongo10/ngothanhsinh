@@ -35,7 +35,7 @@
         .card {
             width: 100%;
             height: 100%;
-            background: rgba(255, 66, 66, 0.329);
+            background: rgba(255, 255, 255, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -79,7 +79,7 @@
     </style>
 </head>
 <body>
-    <img id="illustration" src="https://i.imgur.com/Z6L3a1H.png" alt="Hình minh họa">
+    <img id="illustration" src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTJmcnI2Z3BpMXczcnd1anhoNGxhYTU4czNrdDMyNW4xcXNhc2p1MiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/QlQdLBS70XJcZY1fLF/giphy.gif" alt="Hình minh họa">
     
     <div id="cardContainer"></div>
     
@@ -108,18 +108,17 @@
 
         function createCards() {
             const cardContents = [
-                "Anh xin lỗi vì đã không hiểu em nhiều hơn 1",
-                "Anh đã suy nghĩ lại về mọi chuyện 2",
-                "Em là người quan trọng nhất với anh 3",
-                "Anh sẽ thay đổi để tốt hơn 4 ",
-                "Mình có thể nói chuyện lại được không? 5",
-                "Anh nhớ em rất nhiều 6",
-                "Anh hứa sẽ không làm em buồn nữa 7",
-                "Mọi thứ không có em thật sự rất khó khăn 8",
-                "Anh mong em cho anh một cơ hội 9 ",
-                "Dù thế nào, anh vẫn luôn trân trọng em 10"
+                "Anh xin lỗi vì đã không hiểu em nhiều hơn",
+                "Anh đã suy nghĩ lại về mọi chuyện",
+                "Em là người quan trọng nhất với anh",
+                "Anh sẽ thay đổi để tốt hơn",
+                "Mình có thể nói chuyện lại được không?",
+                "Anh nhớ em rất nhiều",
+                "Anh hứa sẽ không làm em buồn nữa",
+                "Mọi thứ không có em thật sự rất khó khăn",
+                "Anh mong em cho anh một cơ hội",
+                "Dù thế nào, anh vẫn luôn trân trọng em"
             ];
-            
             
             cardContents.forEach((content, i) => {
                 const card = document.createElement("div");
