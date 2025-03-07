@@ -24,6 +24,12 @@
             align-items: center;
             justify-content: center;
         }
+        .welcome-screen img {
+            width: 300px;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
         .game-board {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
@@ -81,6 +87,8 @@
 </head>
 <body>
     <div class="welcome-screen" id="welcomeScreen">
+        <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGozZW12MGhjMmh0YnZjNzk1OWdpNTloZjZjajJrdmlvbmVjMHVzdCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/5QMKspne3I3yOk40fl/giphy.gif" 
+             alt="Welcome GIF">
         <h1>Chào mừng bạn đến với Memory Game!</h1>
         <button onclick="startGame()">Bắt đầu</button>
     </div>
