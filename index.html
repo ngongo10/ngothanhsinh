@@ -7,71 +7,72 @@
     <style>
         body {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: pink;
-            font-family: Arial, sans-serif;
-            text-align: center;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f8f8f8;
+            font-family: Arial, sans-serif;
         }
-        .container {
+        .welcome-screen {
+            position: absolute;
+            width: 100%;
+            height: 100%;
             background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         .game-board {
             display: grid;
-            grid-template-columns: repeat(6, 60px);
-            grid-template-rows: repeat(6, 60px);
-            gap: 5px;
-            margin-top: 20px;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
         }
         .card {
-            width: 60px;
-            height: 60px;
-            background-color: lightgray;
+            width: 50px;
+            height: 50px;
+            background: #ccc;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            cursor: pointer;
+            font-size: 20px;
             border-radius: 5px;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.5s;
+            transform-style: preserve-3d;
+        }
+        .flipped {
+            transform: rotateY(180deg);
+            background-color: #fff;
         }
         .hidden {
-            background-color: gray;
-            color: transparent;
+            visibility: hidden;
         }
-        .button {
+        #nextPageButton {
             display: none;
             margin-top: 20px;
             padding: 10px 20px;
             font-size: 16px;
-            color: white;
             background-color: green;
+            color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            text-decoration: none;
         }
-        .welcome-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: pink;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+        #completionMessage {
+            display: none;
+            font-size: 24px;
+            font-weight: bold;
+            color: green;
+            margin-top: 20px;
         }
-        .start-button {
+        button {
             padding: 10px 20px;
             font-size: 16px;
-            color: white;
             background-color: green;
+            color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -80,63 +81,81 @@
 </head>
 <body>
     <div class="welcome-screen" id="welcomeScreen">
-        <h1>Chào mừng đến với Memory Game!</h1>
-        <button class="start-button" onclick="startGame()">Bắt đầu</button>
+        <h1>Chào mừng bạn đến với Memory Game!</h1>
+        <button onclick="startGame()">Bắt đầu</button>
     </div>
-    <div class="container" id="gameContainer" style="display:none;">
-        <div class="game-board" id="gameBoard"></div>
-        <h2 id="winMessage" style="display:none; color: green;">Yayyy!!!</h2>
-        <a href="page2.html" class="button" id="continueButton">Tiếp tục</a>
-    </div>
+    
+    <h2>Memory Game</h2>
+    <div class="game-board" id="gameBoard" style="display: none;"></div>
+    <div id="completionMessage">Yayyy!!!</div>
+    <button id="nextPageButton" onclick="nextPage()">Tiếp tục</button>
+    
     <script>
-        let selectedCards = [];
+        const icons = ['🍎', '🍌', '🍒', '🍇', '🍉', '🍊', '🍍', '🥝', '🍓', '🍑', '🥥', '🍐', '🍏', '🥭', '🍈', '🍋', '🍔', '🍕'];
+        let shuffledIcons = [...icons, ...icons].sort(() => 0.5 - Math.random());
+        let firstCard = null, secondCard = null;
+        let lockBoard = false;
         let matchedPairs = 0;
 
         function startGame() {
             document.getElementById("welcomeScreen").style.display = "none";
-            document.getElementById("gameContainer").style.display = "block";
-            initGame();
+            document.getElementById("gameBoard").style.display = "grid";
+            createBoard();
         }
 
-        function initGame() {
-            const fruitIcons = ["🍎", "🍌", "🍇", "🍉", "🍍", "🥭", "🍑", "🍒", "🍓", "🥝", "🍊", "🍋", "🍏", "🍐", "🥥", "🥑", "🫐", "🌰"];
-            const symbols = fruitIcons.concat(fruitIcons);
-            let shuffledSymbols = symbols.sort(() => Math.random() - 0.5);
-            matchedPairs = 0;
-            selectedCards = [];
+        function createBoard() {
             const gameBoard = document.getElementById("gameBoard");
-            gameBoard.innerHTML = "";
-            shuffledSymbols.forEach(symbol => {
+            shuffledIcons.forEach((icon, index) => {
                 let card = document.createElement("div");
-                card.classList.add("card", "hidden");
-                card.textContent = symbol;
-                card.addEventListener("click", () => revealCard(card));
+                card.classList.add("card");
+                card.dataset.icon = icon;
+                card.innerText = "?";
+                card.addEventListener("click", flipCard);
                 gameBoard.appendChild(card);
             });
         }
 
-        function revealCard(card) {
-            if (selectedCards.length < 2 && card.classList.contains("hidden")) {
-                card.classList.remove("hidden");
-                selectedCards.push(card);
+        function flipCard(event) {
+            if (lockBoard) return;
+            let card = event.target;
+            if (card === firstCard || card.classList.contains("flipped")) return;
+
+            card.innerText = card.dataset.icon;
+            card.classList.add("flipped");
+
+            if (!firstCard) {
+                firstCard = card;
+                return;
             }
-            if (selectedCards.length === 2) {
-                setTimeout(checkMatch, 500);
-            }
+            
+            secondCard = card;
+            lockBoard = true;
+            
+            setTimeout(checkMatch, 500);
         }
 
         function checkMatch() {
-            if (selectedCards[0].textContent === selectedCards[1].textContent) {
+            if (firstCard.dataset.icon === secondCard.dataset.icon) {
+                firstCard.removeEventListener("click", flipCard);
+                secondCard.removeEventListener("click", flipCard);
                 matchedPairs++;
-                if (matchedPairs === 18) {
-                    document.getElementById("winMessage").style.display = "block";
-                    document.getElementById("continueButton").style.display = "inline-block";
+                if (matchedPairs === icons.length) {
+                    document.getElementById("completionMessage").style.display = "block";
+                    document.getElementById("nextPageButton").style.display = "block";
                 }
             } else {
-                selectedCards[0].classList.add("hidden");
-                selectedCards[1].classList.add("hidden");
+                firstCard.innerText = "?";
+                secondCard.innerText = "?";
+                firstCard.classList.remove("flipped");
+                secondCard.classList.remove("flipped");
             }
-            selectedCards = [];
+            firstCard = null;
+            secondCard = null;
+            lockBoard = false;
+        }
+
+        function nextPage() {
+            window.location.href = "page2.html";
         }
     </script>
 </body>
